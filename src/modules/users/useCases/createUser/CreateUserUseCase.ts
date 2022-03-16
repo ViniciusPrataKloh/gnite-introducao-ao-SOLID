@@ -17,12 +17,12 @@ class CreateUserUseCase {
       throw new Error("User already exists!");
     }
 
-    this.usersRepository.create({
+    const user = this.usersRepository.create({
       name,
       email,
     });
 
-    return this.usersRepository.findByEmail(email);
+    return user;
   }
 }
 
