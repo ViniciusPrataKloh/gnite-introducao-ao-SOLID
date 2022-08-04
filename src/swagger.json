@@ -1,0 +1,136 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "This is an application for users management",
+        "version": "1.0.0",
+        "contact": {
+            "email": "vinicius.prata.kloh@gmail.com"
+        }
+    },
+    "tags": [
+        {
+            "name": "Users",
+            "description": "User management"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create a new user",
+                "description": "To create a new user, the 'name' and 'email' inputs are required.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": "string"
+                                },
+                                "example": {
+                                    "name": "Example",
+                                    "email": "example@email.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success - Created user."
+                    },
+                    "400": {
+                        "description": "Bad Request - user already exists."
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "List all users",
+                "description": "List all users if the user has admin permission.",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "user_id",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success."
+                    },
+                    "400": {
+                        "description": "User not found or user without admin permission."
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user by ID",
+                "description": "To list an user, the route param 'user_id' is required",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "user_id",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success."
+                    },
+                    "404": {
+                        "description": "User not found or user without admin permission."
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Turn an user as admin.",
+                "description": "To update an user, the route param 'user_id' is required.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "user_id",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success."
+                    },
+                    "404": {
+                        "description": "User not found or user without admin permission."
+                    }
+                }
+            }
+        }
+    }
+}
